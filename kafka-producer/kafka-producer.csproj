@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>kafka_producer</RootNamespace>
+    <UserSecretsId>c7553e18-d041-4eec-8b90-e793f66d77b1</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>.</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="App.Metrics.AspNetCore.Health" Version="3.2.0" />
+    <PackageReference Include="Confluent.Kafka" Version="1.5.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+    <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
+    <PackageReference Include="Serilog.Sinks.Async" Version="1.4.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+  </ItemGroup>
+
+
+</Project>
