@@ -1,0 +1,65 @@
+version: '3.4'
+
+services:
+    kafka.consumer:
+        image: kafka.consumer
+        container_name: kafka.consumer
+        build:
+            context: ./kafka-consumer
+            dockerfile: Dockerfile
+        environment:
+            Kafka__BootstrapServers: kafka:9093
+            Kafka__GroupId: Group1
+            Kafka__Topic: ${kafka_topic_name}
+        depends_on: 
+            - kafka
+
+    kafka.producer:
+        image: kafka.producer
+        container_name: kafka.producer
+        build:
+            context: ./kafka-producer
+            dockerfile: Dockerfile
+        ports: 
+            - 9002:80
+        environment:
+            Kafka__BootstrapServers: kafka:9093
+        depends_on: 
+            - kafka
+
+    kafdrop:
+        image: obsidiandynamics/kafdrop
+        container_name: kafdrop
+        restart: "no"
+        ports:
+        - "9001:9000"
+        environment:
+            KAFKA_BROKERCONNECT: kafka:9093
+            JVM_OPTS: "-Xms16M -Xmx48M -Xss180K -XX:-TieredCompilation -XX:+UseStringDeduplication -noverify"
+        depends_on:
+            - "kafka"
+
+    kafka:
+        image: wurstmeister/kafka
+        container_name: kafka
+        ports:
+            - "${kafka_port}:9092"
+        expose: 
+            - "9093"
+        environment:
+            KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9093,OUTSIDE://localhost:9092
+            KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+            KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
+            KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+            KAFKA_CREATE_TOPICS: "${kafka_topic_name}:1:1"
+            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        depends_on: 
+            - zookeeper
+
+    zookeeper:
+        image: wurstmeister/zookeeper
+        container_name: zookeper
+        ports:
+            - "2181:2181"
