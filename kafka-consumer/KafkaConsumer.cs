@@ -3,10 +3,11 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Confluent.Kafka;
+using Kafka.Common;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
-namespace kafka_consumer
+namespace Kafka.Consumer
 {
     public class KafkaConsumer : BackgroundService
     {
@@ -50,7 +51,7 @@ namespace kafka_consumer
 
                 consumer.Close();
             }
-            _logger.Debug("... Kafka Consumer Stopped" );
+            _logger.Debug("... Kafka Consumer Stopped");
         }
 
 

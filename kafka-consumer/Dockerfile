@@ -5,16 +5,17 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["./kafka-consumer.csproj", ""]
-RUN dotnet restore "./kafka-consumer.csproj"
+COPY ["kafka-consumer/Kafka.Consumer.csproj", "kafka-consumer/"]
+COPY ["kafka-common/Kafka.Common.csproj", "kafka-common/"]
+RUN dotnet restore "kafka-consumer/Kafka.Consumer.csproj"
 COPY . .
-WORKDIR "/src/."
-RUN dotnet build "kafka-consumer.csproj" -c Release -o /app/build
+WORKDIR "/src/kafka-consumer"
+RUN dotnet build "Kafka.Consumer.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "kafka-consumer.csproj" -c Release -o /app/publish
+RUN dotnet publish "Kafka.Consumer.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "kafka-consumer.dll"]
+ENTRYPOINT ["dotnet", "Kafka.Consumer.dll"]

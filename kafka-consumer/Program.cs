@@ -1,11 +1,12 @@
 using System.IO;
+using Kafka.Common;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Serilog;
 
-namespace kafka_consumer
+namespace Kafka.Consumer
 {
     public class Program
     {
@@ -21,7 +22,6 @@ namespace kafka_consumer
                     var configuration = new ConfigurationBuilder()
                         .SetBasePath(Directory.GetCurrentDirectory())
                         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                        .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", optional: false, reloadOnChange: true)
                         .AddEnvironmentVariables()
                         .Build();
 
