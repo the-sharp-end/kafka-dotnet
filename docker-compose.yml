@@ -5,8 +5,8 @@ services:
         image: kafka.consumer
         container_name: kafka.consumer
         build:
-            context: ./kafka-consumer
-            dockerfile: Dockerfile
+            context: .
+            dockerfile: ./kafka-consumer/Dockerfile
         environment:
             Kafka__BootstrapServers: kafka:9093
             Kafka__GroupId: Group1
@@ -18,8 +18,8 @@ services:
         image: kafka.producer
         container_name: kafka.producer
         build:
-            context: ./kafka-producer
-            dockerfile: Dockerfile
+            context: .
+            dockerfile: ./kafka-producer/Dockerfile
         ports: 
             - 9002:80
         environment:
