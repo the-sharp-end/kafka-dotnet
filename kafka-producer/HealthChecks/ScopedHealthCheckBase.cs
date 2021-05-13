@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace kafka_producer.HealthChecks
+namespace Kafka.Producer.HealthChecks
 {
     public abstract class ScopedHealthCheckBase : HealthCheck
     {

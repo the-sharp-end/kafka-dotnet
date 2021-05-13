@@ -1,5 +1,4 @@
-﻿
-namespace kafka_producer.Models
+﻿namespace Kafka.Producer.Models
 {
     public class TopicMessageModel
     {

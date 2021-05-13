@@ -7,16 +7,17 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["./kafka-producer.csproj", ""]
-RUN dotnet restore "./kafka-producer.csproj"
+COPY ["kafka-producer/Kafka.Producer.csproj", "kafka-producer/"]
+COPY ["kafka-common/Kafka.Common.csproj", "kafka-common/"]
+RUN dotnet restore "kafka-producer/Kafka.Producer.csproj"
 COPY . .
-WORKDIR "/src/."
-RUN dotnet build "kafka-producer.csproj" -c Release -o /app/build
+WORKDIR "/src/kafka-producer"
+RUN dotnet build "Kafka.Producer.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "kafka-producer.csproj" -c Release -o /app/publish
+RUN dotnet publish "Kafka.Producer.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "kafka-producer.dll"]
+ENTRYPOINT ["dotnet", "Kafka.Producer.dll"]

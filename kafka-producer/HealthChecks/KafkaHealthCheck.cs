@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using App.Metrics.Health;
 using Confluent.Kafka;
 
-namespace kafka_producer.HealthChecks
+namespace Kafka.Producer.HealthChecks
 {
     public class KafkaHealthCheck : ScopedHealthCheckBase
     {

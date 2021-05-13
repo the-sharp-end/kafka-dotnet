@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
 
-namespace kafka_producer
+namespace Kafka.Producer
 {
     public class Program
     {
@@ -34,7 +34,7 @@ namespace kafka_producer
             {
                 Log.CloseAndFlush();
             }
-            
+
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

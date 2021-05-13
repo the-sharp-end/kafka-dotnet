@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Net;
-using System.Threading.Tasks;
 using Confluent.Kafka;
-using kafka_producer.Models;
+using Kafka.Common;
+using Kafka.Producer.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Serilog;
 
-namespace kafka_producer.Controllers
+namespace Kafka.Producer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -33,8 +34,9 @@ namespace kafka_producer.Controllers
             {
                 try
                 {
+                    var kafkaEvent = new KafkaEvent(model.Message);
                     _logger.Debug("Sending Message ...");
-                    producer.Produce(model.Topic, new Message<Null, string> { Value = model.Message }, ProducerHandler);
+                    producer.Produce(model.Topic, new Message<Null, string> { Value = JsonConvert.SerializeObject(kafkaEvent) }, ProducerHandler);
                     producer.Flush();
                     _logger.Debug("... Message Produced");
                 }
